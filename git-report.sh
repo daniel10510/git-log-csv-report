@@ -1,27 +1,34 @@
 #! /bin/bash
-# git-report by @palomaclaud
-# Paloma Claudino <paloma.claud@gmail.com>
+## git-report by @palomaclaud
+## Paloma Claudino <paloma.claud@gmail.com>
 
-# INSTRUCTIONS:
-# Run on current git respoitory with $ sh ./git-report.sh
+## INSTRUCTIONS:
+## Run on current git respoitory with $ sh ./git-report.sh
 
-# START GIT-REPORT SHELL SCRIPT
+## START GIT-REPORT SHELL SCRIPT
 clear
 
-# File definitions
+## File definitions
 REPOSITORY_NAME=`dirs|awk -F"/" '{print $NF}'`
 TEMP_FILE=TEMP_REPORT.txt
 GIT_LOG_FILE=GIT_LOG_REPORT.txt
 CSV_FILE=${REPOSITORY_NAME^^}_REPORT.csv
+# first line of csv file
 HEADER="Hash;Comment;Status;File;Info;\n"
 
-# Filters
-USER_FILTER=""
+## Filters
+USER_FILTER="Paloma\|Claudino"
 COMMENT_FILTER=""
 
-# Functions
+## Functions
 generate_git_log() {
+	#--author	Limit the commits output to ones with author header lines that match the specified pattern
+	#--grep		Limit the commits output to ones with reflog entries that match the specified pattern
+	#--reverse	Output the commits chosen to be shown in reverse order
+	#--name-status	Show only names and status of changed files	
 	git log --author=$USER_FILTER --grep=$COMMENT_FILTER --reverse --name-status --pretty=oneline > $TEMP_FILE
+	
+	# replace tab to ;
 	cat $TEMP_FILE | tr "	" ";" > $GIT_LOG_FILE
 }
 
@@ -81,7 +88,7 @@ remove_files() {
 	rm $GIT_LOG_FILE
 }
 
-# Generate report
+## Generate report
 echo "Generating git log report from repository" ${REPOSITORY_NAME^^}
 generate_git_log
 generate_header
@@ -91,4 +98,4 @@ echo "Report generated successfully!" $CSV_FILE
 remove_files
 
 exit 0
-# FINISHED
+## FINISHED
