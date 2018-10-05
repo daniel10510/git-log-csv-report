@@ -1,0 +1,4 @@
+Hash;Comment;Status;File;
+214e00f5741c7eeb886127ce23720d2a53f772c0;first commit;Added;README.md;
+1e01d32cc997a314dfda4221110ae8ce900fb838;initial commit with basic version of git report;Added;git-report.sh;
+87f21f1f1fdbd81fc7cb79d76644351f7cf6b1ec;adds install instructions, setup and commands to readme;Modified;README.md;
