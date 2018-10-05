@@ -2,8 +2,9 @@
 ###### With one command, generate a .csv file of your entire commit history. A great way to remind you of your previous work. You can filter by author and comment too :)
 
 ## Example report
-![example of what a report looks like](example01.png)
-![example of what a report looks like](example02.png)
+![example of what a report looks like](example01.PNG)
+
+![example of what a report looks like](example02.PNG)
 
 ## Install instructions
 Copy the `git-report.sh` to the git repository folder.
