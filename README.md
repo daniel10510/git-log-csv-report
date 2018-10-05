@@ -15,7 +15,7 @@ Make sure you are working in a git repository that has **at least one commit**.
 ##### You can set the user and comment filters in the `git-report.sh` file:
 ```
 # Filters
-USER_FILTER=""
+USER_FILTER="Paloma\|Claudino"
 COMMENT_FILTER=""
 ```
 
