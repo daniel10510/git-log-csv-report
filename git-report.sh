@@ -30,18 +30,31 @@ generate_header() {
 }
 
 format_status() {
-	case $STATUS_LETTER in
-		"A;") FORMATTED_LINE=${LINE//$STATUS_LETTER/Added;} ;;
-		"C;") FORMATTED_LINE=${LINE//$STATUS_LETTER/Copied;} ;;
-		"D;") FORMATTED_LINE=${LINE//$STATUS_LETTER/Deleted;} ;;
-		"M;") FORMATTED_LINE=${LINE//$STATUS_LETTER/Modified;} ;;
-		"R;") FORMATTED_LINE=${LINE//$STATUS_LETTER/Renamed;} ;;
-		"T;") FORMATTED_LINE=${LINE//$STATUS_LETTER/Have their type (mode) changed;} ;;
-		"U;") FORMATTED_LINE=${LINE//$STATUS_LETTER/Unmerged;} ;;
-		"X;") FORMATTED_LINE=${LINE//$STATUS_LETTER/Unknown;} ;;
-		"B;") FORMATTED_LINE=${LINE//$STATUS_LETTER/Have had their pairing Broken;} ;;
-		   *) FORMATTED_LINE=${LINE//$STATUS_LETTER/All-or-none;} ;;
-	esac
+	STATUS_LETTER_02="${LINE:0:2}"
+	STATUS_LETTER_04="${LINE:0:4}"
+	STATUS_LETTER_05="${LINE:0:5}"
+	NEW_LINE=false
+	
+	if [[ $STATUS_LETTER_04 == "C75;" ]]; then
+		FORMATTED_LINE=${LINE//$STATUS_LETTER_04/Copied;}
+	elif [[ $STATUS_LETTER_05 == "R100;" ]]; then
+		FORMATTED_LINE=${LINE//$STATUS_LETTER_05/Renamed;}
+	elif [[ $STATUS_LETTER_02 =~ ^(A;|C;|D;|M;|R;|T;|U;|X;|B;) ]]; then
+		case $STATUS_LETTER_02 in
+			"A;") FORMATTED_LINE=${LINE//$STATUS_LETTER_02/Added;} ;;
+			"C;") FORMATTED_LINE=${LINE//$STATUS_LETTER_02/Copied;} ;;
+			"D;") FORMATTED_LINE=${LINE//$STATUS_LETTER_02/Deleted;} ;;
+			"M;") FORMATTED_LINE=${LINE//$STATUS_LETTER_02/Modified;} ;;
+			"R;") FORMATTED_LINE=${LINE//$STATUS_LETTER_02/Renamed;} ;;
+			"T;") FORMATTED_LINE=${LINE//$STATUS_LETTER_02/Have their type (mode) changed;} ;;
+			"U;") FORMATTED_LINE=${LINE//$STATUS_LETTER_02/Unmerged;} ;;
+			"X;") FORMATTED_LINE=${LINE//$STATUS_LETTER_02/Unknown;} ;;
+			"B;") FORMATTED_LINE=${LINE//$STATUS_LETTER_02/Have had their pairing Broken;} ;;
+			   *) FORMATTED_LINE=${LINE//$STATUS_LETTER_02/All-or-none;} ;;
+		esac
+	else
+		NEW_LINE=true
+	fi
 }
 
 generate_lines() {
@@ -51,15 +64,14 @@ generate_lines() {
 
 	while read LINE
 	do
-		STATUS_LETTER="${LINE:0:2}"
-		if 	[[ $STATUS_LETTER =~ ^(A;|C;|D;|M;|R;|T;|U;|X;|B;)$ ]] ; then
-			format_status
-			printf "$CONTENT;$FORMATTED_LINE;\n" >> $CSV_FILE
-		else
+		format_status
+		if $NEW_LINE; then
 			HASH=${LINE:0:40}
 			MSG=${LINE:41}
 			COMMIT="$HASH;$MSG"
 			CONTENT="$COMMIT"
+		else
+			printf "$CONTENT;$FORMATTED_LINE;\n" >> $CSV_FILE
 		fi
 	done < $GIT_LOG_FILE
 }
@@ -70,7 +82,7 @@ remove_files() {
 }
 
 # Generate report
-echo "Generating git log report from repository" ${NOME_REPOSITORIO^^}
+echo "Generating git log report from repository" ${REPOSITORY_NAME^^}
 generate_git_log
 generate_header
 generate_lines
