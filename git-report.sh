@@ -13,7 +13,7 @@ REPOSITORY_NAME=`dirs|awk -F"/" '{print $NF}'`
 TEMP_FILE=TEMP_REPORT.txt
 GIT_LOG_FILE=GIT_LOG_REPORT.txt
 CSV_FILE=${REPOSITORY_NAME^^}_REPORT.csv
-HEADER="Hash;Comment;Status;File;\n"
+HEADER="Hash;Comment;Status;File;Info;\n"
 
 # Filters
 USER_FILTER=""

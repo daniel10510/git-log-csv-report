@@ -1,0 +1,8 @@
+Hash;Comment;Status;File;Info;
+214e00f5741c7eeb886127ce23720d2a53f772c0;first commit;Added;README.md;
+1e01d32cc997a314dfda4221110ae8ce900fb838;initial commit with basic version of git report;Added;git-report.sh;
+87f21f1f1fdbd81fc7cb79d76644351f7cf6b1ec;adds install instructions, setup and commands to readme;Modified;README.md;
+458e3442df6d0171d340eaf62708ccfce2255bb2;add report.csv example;Added;GIT-LOG-CSV-REPORT_REPORT.csv;
+805592f24fee5b80b08f9b9017b70c51d667ea2c;renaming report.csv example;Renamed;GIT-LOG-CSV-REPORT_REPORT.csv;EXAMPLE_REPORT.csv;
+c38bd872138a614d7f4a2d05fffd7765295a2e08;removing report.csv example;Deleted;EXAMPLE_REPORT.csv;
+08b6a36fb59345735b866b90448fb2d0db61e7b5;add  C75 and R100 status;Modified;git-report.sh;
